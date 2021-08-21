@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+        bigreplapse:
+                container_name: bigreplapse
+                restart: unless-stopped
+                build:
+                        context: ./
+                        dockerfile: Dockerfile
+                volumes:
+                        - "/etc/localtime:/etc/localtime:ro"
+                        - "./export:/opt/bigreplapse/export"
+                        - "./tmp:/opt/bigreplapse/.tmp"
+

@@ -1,0 +1,3 @@
+[submodule "telegram-bot-bash"]
+	path = telegram-bot-bash
+	url = https://github.com/topkecleon/telegram-bot-bash.git
