@@ -13,6 +13,10 @@ Ugly hacks to have timelapse and Telegram Bot on the crippled version of OctoPri
  - Any printer with OctoPrint
  - Bravery
 
+## Setup
+1. Build Docker image with `docker-compose build`
+2. Run the container with `docker-compose up`
+
 ## FAQ
 Q: Why a Telegram Bot in Bash?
 
