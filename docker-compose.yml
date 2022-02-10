@@ -9,5 +9,7 @@ services:
                 volumes:
                         - "/etc/localtime:/etc/localtime:ro"
                         - "./export:/opt/bigreplapse/export"
+                        - "./count.jssh:/opt/bigreplapse/telegram-bot-bash/count.jssh"
+                        - "./botconfig.jssh:/opt/bigreplapse/telegram-bot-bash/botconfig.jssh"
                         - "./tmp:/opt/bigreplapse/.tmp"
 

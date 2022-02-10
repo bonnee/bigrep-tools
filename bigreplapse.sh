@@ -26,22 +26,27 @@ while true; do
 
       echo "Starting image capture for $name every $interval seconds"
       endtime=$(echo "$(date +%s)+$timeleft" | bc)
-      
-      $bot_path/send_broadcast.sh --doit --both "Print $name started. It should end at $(date -d @$endtime)"
+
+      $bot_path/send_broadcast.sh --doit --both "Print $name started 🖨. It should end at $(date -d @$endtime)"
       # if ffmpeg is not running yet
       rm -rf $tmpdir/*
-      
+
       # Capture snapshot every $interval
       ffmpeg -hide_banner -loglevel error -i "$curl" -f image2 -vf fps=fps="1/$interval" "$tmpdir/$name-%04d.jpg" & ffpid=$!
     fi
   elif [ ! -z "$ffpid" ]; then
     echo "Generating timelapse"
-    $bot_path/send_broadcast.sh --doit --both "Print $name ended! now generating timelapse..."
+    $bot_path/send_broadcast.sh --doit --both "Print $name ended! now generating timelapse... 🎞"
+    sleep $interval
     kill "$ffpid"
     unset ffpid
-    ffmpeg -hide_banner -loglevel error -framerate $targetfps -i "$tmpdir/$name-%04d.jpg" -c:v libx264 -pix_fmt yuv420p "$exportdir/timelapse-$name-$(date +%s).mp4"
 
-    $bot_path/send_file.sh --doit --both "Print $name ended! now generating timelapse..."
+    timelapse_name="timelapse-$name-$(date +%s).mp4"
+    ffmpeg -hide_banner -loglevel error -framerate $targetfps -i "$tmpdir/$name-%04d.jpg" -c:v libx264 -pix_fmt yuv420p "$exportdir/$timelapse_name"
+
+    cp "$exportdir/$timelapse_name" "$bot_path/$timelapse_name"
+    $bot_path/send_broadcast_file.sh --doit --both "$bot_path/$timelapse_name" "Timelapse generated successfully! ✅" "video"
+    rm "$bot_path/$timelapse_name"
   fi
 
   sleep 60 # don't overload octoprint with requests
